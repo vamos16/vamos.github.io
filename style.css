@@ -3,17 +3,28 @@ body {
   font-family: Arial, sans-serif;
   background: #0a0a0a;
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
+/* Instagram gradient hissi */
 .container {
+  width: 100%;
   max-width: 500px;
-  margin: auto;
-  padding: 40px;
-  text-align: center;
+  padding: 20px;
+}
+
+.card {
+  background: #151515;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #2a2a2a;
 }
 
 h1 {
-  color: white;
+  margin-bottom: 10px;
 }
 
 p {
@@ -38,20 +49,36 @@ textarea {
 
 button {
   margin-top: 15px;
-  padding: 12px 20px;
-  background: #ff0033;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
   border: none;
   color: white;
   cursor: pointer;
   border-radius: 6px;
+  font-weight: bold;
 }
 
 button:hover {
-  background: #ff3355;
+  opacity: 0.9;
 }
 
-.info {
-  margin-top: 20px;
-  font-size: 14px;
-  color: #777;
+/* SUCCESS SCREEN */
+.success {
+  display: none;
+  text-align: center;
+  padding: 40px;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+  animation: pop 0.6s ease;
+}
+
+.ig-logo {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+@keyframes pop {
+  from {transform: scale(0.8); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
 }
