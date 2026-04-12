@@ -1,125 +1,83 @@
-// ŞİFRE
-function unlock(){
-let v=document.getElementById("pass").value.toLowerCase();
-
-if(v.includes("göksu")||v.includes("goksu")){
-document.getElementById("lock").style.display="none";
-document.getElementById("overlay").classList.remove("hidden");
-}else{
-document.getElementById("error").innerText="yanlış...";
-}
+body{
+margin:0;
+background:#111;
+font-family:-apple-system, BlinkMacSystemFont;
+overflow:hidden;
+color:white;
 }
 
-// GÜN / GECE
-let hour=new Date().getHours();
-document.getElementById("greet").innerText=
-hour<18?"Günaydın Göksu ☀️":"İyi geceler Göksu 🌙";
-
-// SITE BAŞLAT
-function startSite(){
-document.getElementById("overlay").style.display="none";
-document.getElementById("app").classList.remove("hidden");
-document.getElementById("music").play();
-chat();
+.phone{
+width:320px;
+height:600px;
+background:#000;
+border-radius:40px;
+margin:50px auto;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+box-shadow:0 0 40px rgba(255,0,100,0.3);
 }
 
-// CHAT MESAJLARI
-let msgs=[
-"Göksu...",
-"Seni üzdüğüm her şey için özür dilerim...",
-"Gerçekten çok pişmanım...",
-"10 Haziran 2025 15:00... ❤️",
-"O günden beri hayatım sensin",
-"Benimle tekrar başlar mısın?"
-];
-
-function chat(){
-let i=0;
-
-function next(){
-if(i<msgs.length){
-let d=document.createElement("div");
-d.className="msg";
-d.innerText=msgs[i];
-document.getElementById("chat").appendChild(d);
-
-i++;
-setTimeout(next,1500);
-
-}else{
-document.getElementById("buttons").classList.remove("hidden");
-}
+.header{
+background:#1c1c1e;
+padding:15px;
+text-align:center;
+font-weight:bold;
 }
 
-next();
+.chat{
+flex:1;
+padding:10px;
+overflow-y:auto;
+display:flex;
+flex-direction:column;
 }
 
-// SAYAÇ
-setInterval(()=>{
-let start=new Date("2025-06-10T15:00:00");
-let now=new Date()-start;
-
-let d=Math.floor(now/86400000);
-let h=Math.floor((now%86400000)/3600000);
-
-document.getElementById("counter").innerText=
-d+" gün "+h+" saat ❤️";
-
-},1000);
-
-// KAÇAN BUTON
-function move(){
-let b=document.getElementById("no");
-b.style.left=Math.random()*window.innerWidth+"px";
-b.style.top=Math.random()*window.innerHeight+"px";
+.msg{
+max-width:70%;
+padding:10px;
+margin:5px;
+border-radius:20px;
+font-size:14px;
 }
 
-// DARK MODE
-function toggleMode(){
-document.body.classList.toggle("light");
+.me{
+align-self:flex-end;
+background:#0a84ff;
 }
 
-// PARTICLE SYSTEM
-const c=document.getElementById("bg");
-const ctx=c.getContext("2d");
-
-c.width=window.innerWidth;
-c.height=window.innerHeight;
-
-let p=[];
-
-function add(){
-p.push({
-x:c.width/2,
-y:c.height/2,
-vx:(Math.random()-0.5)*12,
-vy:(Math.random()-0.5)*12,
-s:5
-});
+.her{
+align-self:flex-start;
+background:#2c2c2e;
 }
 
-function loop(){
-ctx.clearRect(0,0,c.width,c.height);
-
-p.forEach(e=>{
-e.x+=e.vx;
-e.y+=e.vy;
-
-ctx.fillStyle="pink";
-ctx.beginPath();
-ctx.arc(e.x,e.y,e.s,0,Math.PI*2);
-ctx.fill();
-});
-
-requestAnimationFrame(loop);
+.footer{
+padding:10px;
+background:#1c1c1e;
 }
 
-loop();
+input{
+width:100%;
+padding:10px;
+border-radius:20px;
+border:none;
+background:#2c2c2e;
+color:white;
+}
 
-// EVET
-function accept(){
-for(let i=0;i<300;i++) add();
+#counter{
+text-align:center;
+margin-top:10px;
+font-size:14px;
+opacity:0.7;
+}
 
-document.getElementById("app").style.display="none";
-document.getElementById("final").classList.remove("hidden");
+/* particle */
+#bg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
 }
