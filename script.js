@@ -1,54 +1,49 @@
-const chat = document.getElementById("chat");
+const text = document.getElementById("text");
 
 // AKILLI MESAJ
 let hour = new Date().getHours();
-let greet = hour < 18 ? "Günaydın güzelim ☀️" : "İyi geceler aşkım 🌙";
+let greet = hour < 18 
+? "Günaydın Göksu ☀️" 
+: "İyi geceler Göksu 🌙";
+
+document.getElementById("greet").innerText = greet;
 
 // MESAJLAR
-let messages = [
-{from:"me", text:greet},
-
-{from:"me", text:"Göksu..."},
-{from:"me", text:"Seni çok seviyorum."},
-
-{from:"me", text:"Bazen seni kızdırıyorum, kırıyorum..."},
-{from:"me", text:"ama inan hiç istemiyorum."},
-
-{from:"me", text:"Bağırdığım, sert olduğum anlar için gerçekten özür dilerim."},
-
-{from:"me", text:"Biz ayrı değiliz."},
-{from:"me", text:"Sen benim sevgilimsin ve hep öyle kalacaksın."},
-
-{from:"me", text:"10 Haziran 2025 15:00..."},
-{from:"me", text:"Hayatımın en güzel başlangıcıydı."},
-
-{from:"me", text:"Seni kaybetmek istemiyorum."},
-{from:"me", text:"Sadece daha iyi olmak istiyorum."},
-
-{from:"me", text:"Sana söz veriyorum deneyeceğim."},
-
-{from:"me", text:"💖"}
+let lines = [
+"Göksu...",
+"Seni çok seviyorum.",
+"Bazen seni kızdırıyorum...",
+"bazen de farkında olmadan üzüyorum.",
+"Ama inan hiç istemiyorum.",
+"Bağırdığım, kırdığım her şey için gerçekten özür dilerim.",
+"Sen benim sevgilimsin.",
+"Ve biz ayrı değiliz.",
+"10 Haziran 2025 15:00...",
+"Hayatımın en güzel başlangıcıydı.",
+"Seni kaybetmek istemiyorum.",
+"Sadece daha iyi olmak istiyorum.",
+"Sana söz veriyorum deneyeceğim.",
+"💖"
 ];
 
-// CHAT AKIŞI
+// YAZDIRMA EFEKTİ
 let i = 0;
 
-function sendMessage(){
-if(i < messages.length){
+function show(){
+if(i < lines.length){
 
-let m = document.createElement("div");
-m.className = "msg " + messages[i].from;
-m.innerText = messages[i].text;
+let div = document.createElement("div");
+div.className = "line";
+div.innerText = lines[i];
 
-chat.appendChild(m);
-chat.scrollTop = chat.scrollHeight;
+text.appendChild(div);
 
 i++;
-setTimeout(sendMessage, 1500);
+setTimeout(show, 1500);
 }
 }
 
-sendMessage();
+show();
 
 // SAYAÇ
 setInterval(()=>{
@@ -63,17 +58,17 @@ d + " gün " + h + " saat birlikte ❤️";
 
 },1000);
 
-// PARTICLE HEART
+// PARTICLE KALP
 const c = document.getElementById("bg");
 const ctx = c.getContext("2d");
 
 c.width = window.innerWidth;
 c.height = window.innerHeight;
 
-let particles = [];
+let p = [];
 
 function create(){
-particles.push({
+p.push({
 x: Math.random()*c.width,
 y: c.height,
 vy: Math.random()*-2-1,
@@ -84,12 +79,12 @@ size: Math.random()*3+2
 function draw(){
 ctx.clearRect(0,0,c.width,c.height);
 
-particles.forEach(p=>{
-p.y += p.vy;
+p.forEach(e=>{
+e.y += e.vy;
 
 ctx.fillStyle="pink";
 ctx.beginPath();
-ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+ctx.arc(e.x,e.y,e.size,0,Math.PI*2);
 ctx.fill();
 });
 
