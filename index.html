@@ -9,25 +9,36 @@
 
   <div class="container">
 
-    <h1>📩 Talep Gönder</h1>
-    <p>Instagram kullanıcı adını ve talebini bırak</p>
+    <!-- FORM -->
+    <div id="formCard" class="card">
 
-    <form action="https://formspree.io/f/mjgjbpjj" method="POST">
+      <h1>📩 Talep Gönder</h1>
+      <p>Instagram kullanıcı adını ve talebini bırak</p>
 
-      <input type="text" name="instagram" placeholder="Instagram kullanıcı adı" required>
+      <form id="form" action="https://formspree.io/f/mjgjbpjj" method="POST">
 
-      <textarea name="message" placeholder="Talebini yaz..." required></textarea>
+        <input type="text" name="instagram" placeholder="Instagram kullanıcı adı" required>
 
-      <button type="submit">Gönder</button>
+        <textarea name="message" placeholder="Talebini yaz..." required></textarea>
 
-    </form>
+        <button type="submit">Gönder</button>
 
-    <div class="info">
-      <p>✔ Şifre istenmez</p>
-      <p>✔ Mesajlar direkt e-postaya gider</p>
+      </form>
+
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div id="success" class="success">
+
+      <div class="ig-logo">📸</div>
+
+      <h2>Talep Gönderildi</h2>
+      <p>Instagram üzerinden en kısa sürede dönüş yapılacak</p>
+
     </div>
 
   </div>
 
+  <script src="script.js"></script>
 </body>
 </html>
