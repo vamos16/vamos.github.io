@@ -1,86 +1,125 @@
-body {
-  margin: 0;
-  font-family: Arial;
-  text-align: center;
-  color: white;
-  overflow: hidden;
-  transition: 1s;
+// ŞİFRE
+function unlock(){
+let v=document.getElementById("pass").value.toLowerCase();
+
+if(v.includes("göksu")||v.includes("goksu")){
+document.getElementById("lock").style.display="none";
+document.getElementById("overlay").classList.remove("hidden");
+}else{
+document.getElementById("error").innerText="yanlış...";
+}
 }
 
-.day {
-  background: linear-gradient(#87cefa, #ffb6c1);
+// GÜN / GECE
+let hour=new Date().getHours();
+document.getElementById("greet").innerText=
+hour<18?"Günaydın Göksu ☀️":"İyi geceler Göksu 🌙";
+
+// SITE BAŞLAT
+function startSite(){
+document.getElementById("overlay").style.display="none";
+document.getElementById("app").classList.remove("hidden");
+document.getElementById("music").play();
+chat();
 }
 
-.night {
-  background: linear-gradient(#0f2027, #2c5364);
+// CHAT MESAJLARI
+let msgs=[
+"Göksu...",
+"Seni üzdüğüm her şey için özür dilerim...",
+"Gerçekten çok pişmanım...",
+"10 Haziran 2025 15:00... ❤️",
+"O günden beri hayatım sensin",
+"Benimle tekrar başlar mısın?"
+];
+
+function chat(){
+let i=0;
+
+function next(){
+if(i<msgs.length){
+let d=document.createElement("div");
+d.className="msg";
+d.innerText=msgs[i];
+document.getElementById("chat").appendChild(d);
+
+i++;
+setTimeout(next,1500);
+
+}else{
+document.getElementById("buttons").classList.remove("hidden");
+}
 }
 
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  cursor: pointer;
-  z-index: 10;
+next();
 }
 
-.container {
-  padding: 20px;
+// SAYAÇ
+setInterval(()=>{
+let start=new Date("2025-06-10T15:00:00");
+let now=new Date()-start;
+
+let d=Math.floor(now/86400000);
+let h=Math.floor((now%86400000)/3600000);
+
+document.getElementById("counter").innerText=
+d+" gün "+h+" saat ❤️";
+
+},1000);
+
+// KAÇAN BUTON
+function move(){
+let b=document.getElementById("no");
+b.style.left=Math.random()*window.innerWidth+"px";
+b.style.top=Math.random()*window.innerHeight+"px";
 }
 
-.hidden {
-  display: none;
+// DARK MODE
+function toggleMode(){
+document.body.classList.toggle("light");
 }
 
-#chat {
-  margin: 20px;
+// PARTICLE SYSTEM
+const c=document.getElementById("bg");
+const ctx=c.getContext("2d");
+
+c.width=window.innerWidth;
+c.height=window.innerHeight;
+
+let p=[];
+
+function add(){
+p.push({
+x:c.width/2,
+y:c.height/2,
+vx:(Math.random()-0.5)*12,
+vy:(Math.random()-0.5)*12,
+s:5
+});
 }
 
-.msg {
-  background: rgba(255,255,255,0.2);
-  padding: 12px;
-  margin: 10px;
-  border-radius: 12px;
-  max-width: 70%;
-  margin-left: auto;
-  margin-right: auto;
-  animation: fadeIn 1s;
+function loop(){
+ctx.clearRect(0,0,c.width,c.height);
+
+p.forEach(e=>{
+e.x+=e.vx;
+e.y+=e.vy;
+
+ctx.fillStyle="pink";
+ctx.beginPath();
+ctx.arc(e.x,e.y,e.s,0,Math.PI*2);
+ctx.fill();
+});
+
+requestAnimationFrame(loop);
 }
 
-.counter {
-  margin: 20px;
-  font-size: 1.2em;
-}
+loop();
 
-button {
-  padding: 12px 20px;
-  margin: 10px;
-  border-radius: 25px;
-  border: none;
-  cursor: pointer;
-}
+// EVET
+function accept(){
+for(let i=0;i<300;i++) add();
 
-#noBtn {
-  position: absolute;
-}
-
-#game div {
-  position: absolute;
-  cursor: pointer;
-  font-size: 28px;
-}
-
-.result {
-  position: absolute;
-  top: 40%;
-  width: 100%;
-}
-
-@keyframes fadeIn {
-  from {opacity:0;}
-  to {opacity:1;}
+document.getElementById("app").style.display="none";
+document.getElementById("final").classList.remove("hidden");
 }
