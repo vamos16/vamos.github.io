@@ -3,156 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Göksu ❤️</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: linear-gradient(45deg, #ff6b81, #ffb6c1);
-  color: white;
-  text-align: center;
-}
-
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.container {
-  display: none;
-  padding: 20px;
-}
-
-h1 {
-  font-size: 3em;
-}
-
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin: 30px;
-}
-
-.gallery img {
-  width: 100%;
-  border-radius: 15px;
-}
-
-.message {
-  font-size: 1.2em;
-  margin: 20px;
-  line-height: 1.6;
-}
-
-button {
-  padding: 15px;
-  border-radius: 30px;
-  border: none;
-  background: white;
-  color: #ff4d6d;
-  cursor: pointer;
-}
-
-.counter {
-  margin-top: 20px;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="overlay" onclick="start()">
-  <h1>Tıkla 💖</h1>
-  <p>Göksu için bir mesajın var...</p>
+<canvas id="hearts"></canvas>
+
+<div class="overlay" onclick="startSite()">
+  <h1 id="greeting"></h1>
+  <p>Senin için bir mesajım var...</p>
 </div>
 
-<audio id="music" loop>
-  <source src="music.mp3">
-</audio>
+<div class="container hidden">
 
-<div class="container">
-
-<h1>Günaydın Göksu ❤️</h1>
-
-<p id="typing"></p>
-
-<div class="gallery">
-  <img src="images/1.jpg">
-  <img src="images/2.jpg">
-  <img src="images/3.jpg">
-</div>
-
-<div class="message">
-  <p>Seni üzdüğüm her şey için gerçekten özür dilerim...</p>
-  <p>
-    Bilerek yaptığım hiçbir şey yoktu ama yine de seni kırdıysam bu benim hatam.
-  </p>
-  <p>
-    Sen benim için çok değerlisin. Seni üzmek isteyeceğim son şeysin.
-  </p>
-  <p>
-    Seni çok seviyorum Göksu ❤️
-  </p>
-</div>
+<div id="chat"></div>
 
 <div class="counter">
-  Seninle geçen süre 💞  
+  💞 Seninle geçen süre:
   <p id="time"></p>
 </div>
 
-<button onclick="love()">Buna da tıkla 💌</button>
+<button onclick="startGame()">🎮 Küçük bir oyun oyna</button>
+
+<div id="game" class="hidden"></div>
+
+<div class="buttons hidden" id="buttons">
+  <button onclick="accept()">Evet 💖</button>
+  <button id="noBtn" onmouseover="moveButton()">Hayır 😢</button>
+</div>
 
 </div>
 
-<script>
-const text = "Seninle geçen her an hayatımın en güzel kısmı... Seni çok seviyorum Göksu ❤️";
-let i = 0;
+<div class="result hidden" id="result">
+  <h1>💖 Teşekkür ederim Göksu 💖</h1>
+  <p>Seni çok seviyorum ❤️</p>
+</div>
 
-function typeWriter() {
-  if (i < text.length) {
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typeWriter, 40);
-  }
-}
-
-function start() {
-  document.querySelector(".overlay").style.display = "none";
-  document.querySelector(".container").style.display = "block";
-  document.getElementById("music").play();
-  typeWriter();
-}
-
-function love() {
-  alert("Her şeyden çok seni seviyorum ❤️");
-}
-
-// BURAYI DEĞİŞTİR (ilişki başlangıç tarihi)
-const startDate = new Date("2025-09-03");
-
-function updateTime() {
-  const now = new Date();
-  const diff = now - startDate;
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-
-  document.getElementById("time").innerText =
-    days + " gün " + hours + " saat " + minutes + " dakika";
-}
-
-setInterval(updateTime, 1000);
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
