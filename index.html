@@ -8,39 +8,23 @@
 
 <body>
 
-<audio id="music" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8f2b3.mp3">
-</audio>
-
 <canvas id="bg"></canvas>
 
-<div id="lock">
-<h1>Göksu ❤️</h1>
-<input id="pass" placeholder="ismini yaz">
-<br>
-<button onclick="unlock()">Aç</button>
-<p id="error"></p>
+<div class="phone">
+
+<div class="header">
+Göksu 💖
 </div>
 
-<div id="overlay" class="hidden" onclick="startSite()">
-<h1 id="greet"></h1>
+<div id="chat" class="chat"></div>
+
+<div class="footer">
+<input placeholder="mesaj yaz..." disabled>
 </div>
 
-<div id="app" class="hidden">
-<div id="chat"></div>
+</div>
+
 <div id="counter"></div>
-
-<button onclick="toggleMode()">🌙 / ☀️</button>
-
-<div id="buttons" class="hidden">
-<button onclick="accept()">Evet 💖</button>
-<button id="no" onmouseover="move()">Hayır 😢</button>
-</div>
-</div>
-
-<div id="final" class="hidden">
-<h1>💖 Benimle tekrar başlar mısın? 💖</h1>
-</div>
 
 <script src="script.js"></script>
 </body>
