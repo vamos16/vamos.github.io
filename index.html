@@ -2,39 +2,25 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Talep Formu</title>
+  <title>Göksu 💖</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="container">
 
-    <!-- FORM -->
-    <div id="formCard" class="card">
+    <h1>💖 Göksu</h1>
+    <p class="sub">Seni çok seviyorum...</p>
 
-      <h1>📩 Talep Gönder</h1>
-      <p>Instagram kullanıcı adını ve talebini bırak</p>
+    <div class="gallery">
 
-      <form id="form" action="https://formspree.io/f/mjgjbpjj" method="POST">
-
-        <input type="text" name="instagram" placeholder="Instagram kullanıcı adı" required>
-
-        <textarea name="message" placeholder="Talebini yaz..." required></textarea>
-
-        <button type="submit">Gönder</button>
-
-      </form>
+      <img src="foto1.jpg" onclick="showLove(this)">
+      <img src="foto2.jpg" onclick="showLove(this)">
 
     </div>
 
-    <!-- SUCCESS SCREEN -->
-    <div id="success" class="success">
-
-      <div class="ig-logo">📸</div>
-
-      <h2>Talep Gönderildi</h2>
-      <p>Instagram üzerinden en kısa sürede dönüş yapılacak</p>
-
+    <div id="popup" class="popup">
+      <img id="popupImg">
     </div>
 
   </div>
