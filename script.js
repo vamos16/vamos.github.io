@@ -1,12 +1,11 @@
-const form = document.getElementById("form");
-const formCard = document.getElementById("formCard");
-const success = document.getElementById("success");
+function showLove(img) {
+  const popup = document.getElementById("popup");
+  const popupImg = document.getElementById("popupImg");
 
-form.addEventListener("submit", function () {
+  popupImg.src = img.src;
+  popup.style.display = "flex";
 
-  setTimeout(() => {
-    formCard.style.display = "none";
-    success.style.display = "block";
-  }, 800);
-
-});
+  popup.onclick = () => {
+    popup.style.display = "none";
+  };
+}
