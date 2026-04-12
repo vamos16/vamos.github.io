@@ -2,32 +2,29 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>VAMOS CAN</title>
+  <title>Talep Formu</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="container">
 
-    <h1>📩 Sosyal medya işleriniz için ulaşabilirsiniz</h1>
+    <h1>📩 Talep Gönder</h1>
+    <p>Instagram kullanıcı adını ve talebini bırak</p>
 
-    <div class="card">
-      <h2>VAMOS CAN</h2>
-      <p>2013’ten beri sanal dünyadayım 😄 kendi yolumda takılıyorum.</p>
-    </div>
+    <form action="https://formspree.io/f/REPLACE_THIS" method="POST">
 
-    <div class="card">
-      <h2>Hizmetler</h2>
-      <p>Sosyal medya işleri, içerik üretimi ve dijital iletişim.</p>
-    </div>
+      <input type="text" name="instagram" placeholder="Instagram kullanıcı adı" required>
 
-    <div class="social">
-      <h3>İletişim</h3>
+      <textarea name="message" placeholder="Talebini yaz..." required></textarea>
 
-      <a href="https://instagram.com/v4moscan" target="_blank">
-        Instagram: @v4moscan
-      </a>
+      <button type="submit">Gönder</button>
 
+    </form>
+
+    <div class="info">
+      <p>✔ Şifre istenmez</p>
+      <p>✔ Mesajlar direkt e-postaya gider</p>
     </div>
 
   </div>
