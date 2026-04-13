@@ -1,12 +1,11 @@
-const text = document.getElementById("text");
-
-// AKILLI MESAJ
+// AKILLI SELAM
 let hour = new Date().getHours();
 let greet = hour < 18 
 ? "Günaydın Göksu ☀️" 
 : "İyi geceler Göksu 🌙";
 
 document.getElementById("greet").innerText = greet;
+
 
 // MESAJLAR
 let lines = [
@@ -15,81 +14,119 @@ let lines = [
 "Bazen seni kızdırıyorum...",
 "bazen de farkında olmadan üzüyorum.",
 "Ama inan hiç istemiyorum.",
-"Bağırdığım, kırdığım her şey için gerçekten özür dilerim.",
+"Her şey için özür dilerim.",
 "Sen benim sevgilimsin.",
 "Ve biz ayrı değiliz.",
-"10 Aralık 2025 15:00...",
-"Hayatımın en güzel başlangıcıydı.",
+"10 Aralık 2025...",
+"Hayatımın en güzel günü.",
 "Seni kaybetmek istemiyorum.",
-"Sadece daha iyi olmak istiyorum.",
 "Sana söz veriyorum deneyeceğim.",
 "💖"
 ];
 
-// YAZDIRMA EFEKTİ
+
+// YAZMA EFEKTİ
 let i = 0;
+
+function typeLine(line, element, callback){
+let j = 0;
+
+function type(){
+if(j < line.length){
+element.innerHTML += line[j];
+j++;
+setTimeout(type, 40);
+}else{
+callback();
+}
+}
+
+type();
+}
 
 function show(){
 if(i < lines.length){
-
 let div = document.createElement("div");
 div.className = "line";
-div.innerText = lines[i];
+document.getElementById("text").appendChild(div);
 
-text.appendChild(div);
-
+typeLine(lines[i], div, () => {
 i++;
-setTimeout(show, 1500);
+setTimeout(show, 800);
+});
 }
 }
 
 show();
 
-// SAYAÇ
+
+// BUTON
+function showLove(){
+alert("Seni her şeyden çok seviyorum Göksu 💖");
+}
+
+
+// SAYAÇ (10 ARALIK 2025)
 setInterval(()=>{
-let start = new Date("2025-12-10T15:00:00");
+let start = new Date("2025-12-10");
 let now = new Date() - start;
 
 let d = Math.floor(now / 86400000);
 let h = Math.floor((now % 86400000)/3600000);
+let m = Math.floor((now % 3600000)/60000);
 
 document.getElementById("counter").innerText =
-d + " gün " + h + " saat birlikte ❤️";
+d + " gün " + h + " saat " + m + " dakika birlikte ❤️";
 
 },1000);
 
-// PARTICLE KALP
+
+// KALP ANİMASYON
 const c = document.getElementById("bg");
 const ctx = c.getContext("2d");
 
 c.width = window.innerWidth;
 c.height = window.innerHeight;
 
-let p = [];
+let hearts = [];
 
-function create(){
-p.push({
+function createHeart(){
+hearts.push({
 x: Math.random()*c.width,
 y: c.height,
 vy: Math.random()*-2-1,
-size: Math.random()*3+2
+size: Math.random()*10+5
 });
+}
+
+function drawHeart(x, y, size){
+ctx.beginPath();
+ctx.moveTo(x, y);
+ctx.bezierCurveTo(x, y-3*size, x-2*size, y-3*size, x-2*size, y);
+ctx.bezierCurveTo(x-2*size, y+2*size, x, y+3*size, x, y+4*size);
+ctx.bezierCurveTo(x, y+3*size, x+2*size, y+2*size, x+2*size, y);
+ctx.bezierCurveTo(x+2*size, y-3*size, x, y-3*size, x, y);
+ctx.fillStyle = "pink";
+ctx.fill();
 }
 
 function draw(){
 ctx.clearRect(0,0,c.width,c.height);
 
-p.forEach(e=>{
-e.y += e.vy;
-
-ctx.fillStyle="pink";
-ctx.beginPath();
-ctx.arc(e.x,e.y,e.size,0,Math.PI*2);
-ctx.fill();
+hearts.forEach(h=>{
+h.y += h.vy;
+drawHeart(h.x, h.y, h.size);
 });
 
 requestAnimationFrame(draw);
 }
 
-setInterval(create, 200);
+setInterval(createHeart, 300);
 draw();
+
+
+// RESPONSIVE
+window.addEventListener("resize", ()=>{
+c.width = window.innerWidth;
+c.height = window.innerHeight;
+});
