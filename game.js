@@ -1,141 +1,151 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+// HD
 function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const scale = window.devicePixelRatio || 1;
+  canvas.width = window.innerWidth * scale;
+  canvas.height = window.innerHeight * scale;
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
 }
 resize();
 window.addEventListener("resize", resize);
 
-// 😘 KUŞ
+// OYUN DURUMU
+let started = false;
+let gameOver = false;
+
+// KUŞ
 let bird = {
-  x: 80,
-  y: 200,
-  velocity: 0,
-  gravity: 0.5,
-  lift: -10
+  x: 100,
+  y: window.innerHeight / 2,
+  velocity: 0
 };
 
 let pipes = [];
-let hearts = [];
 let score = 0;
-let gameOver = false;
 
 // BORU
 function createPipe() {
-  let gap = 200;
-  let top = Math.random() * (canvas.height - gap);
+  const gap = window.innerHeight * 0.45;
+  const margin = 80;
+
+  const minY = margin;
+  const maxY = window.innerHeight - gap - margin;
+
+  const top = Math.random() * (maxY - minY) + minY;
 
   pipes.push({
-    x: canvas.width,
-    width: 70,
+    x: window.innerWidth,
+    width: 60,
     top: top,
     bottom: top + gap,
     passed: false
   });
 }
 
-// KALP
-function createHeart() {
-  hearts.push({
-    x: Math.random() * canvas.width,
-    y: canvas.height,
-    size: Math.random() * 20 + 10
-  });
-}
-
 // TIKLAMA
 function flap() {
-  if (gameOver) {
-    location.reload();
-  } else {
-    bird.velocity = bird.lift;
-
-    // ✨ zıplama efekti
-    hearts.push({
-      x: bird.x,
-      y: bird.y,
-      size: 15
-    });
+  // ilk dokunuş → başlat
+  if (!started) {
+    started = true;
+    return;
   }
+
+  // ölüyse restart
+  if (gameOver) {
+    reset();
+    return;
+  }
+
+  bird.velocity = -8;
 }
 
 document.addEventListener("click", flap);
 document.addEventListener("touchstart", flap);
 
-// GÜNCELLE
+// UPDATE
 function update() {
-  if (gameOver) return;
+  if (!started || gameOver) return;
 
-  bird.velocity += bird.gravity;
+  bird.velocity += 0.4;
   bird.y += bird.velocity;
 
-  if (bird.y > canvas.height || bird.y < 0) endGame();
+  if (bird.y > window.innerHeight || bird.y < 0) {
+    gameOver = true;
+  }
 
-  pipes.forEach(pipe => {
-    pipe.x -= 3;
+  pipes.forEach(p => {
+    p.x -= 2;
 
-    if (!pipe.passed && pipe.x + pipe.width < bird.x) {
+    if (!p.passed && p.x + p.width < bird.x) {
       score++;
-      pipe.passed = true;
+      p.passed = true;
       document.getElementById("score").innerText = score;
     }
 
+    const birdTop = bird.y - 15;
+    const birdBottom = bird.y + 15;
+
     if (
-      bird.x + 15 > pipe.x &&
-      bird.x - 15 < pipe.x + pipe.width &&
-      (bird.y < pipe.top || bird.y > pipe.bottom)
+      bird.x + 15 > p.x &&
+      bird.x - 15 < p.x + p.width &&
+      (birdTop < p.top || birdBottom > p.bottom)
     ) {
-      endGame();
+      gameOver = true;
     }
   });
 
-  hearts.forEach(h => h.y -= 1.5);
+  if (
+    pipes.length === 0 ||
+    window.innerWidth - pipes[pipes.length - 1].x > 400
+  ) {
+    createPipe();
+  }
+}
 
-  if (Math.random() < 0.02) createPipe();
-  if (Math.random() < 0.04) createHeart();
+// RESET
+function reset() {
+  bird.y = window.innerHeight / 2;
+  bird.velocity = 0;
+  pipes = [];
+  score = 0;
+  gameOver = false;
+  started = false;
+  document.getElementById("score").innerText = score;
 }
 
 // ÇİZ
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // ☁️ bulut efekti
-  ctx.fillStyle = "rgba(255,255,255,0.5)";
-  for (let i = 0; i < 3; i++) {
-    ctx.beginPath();
-    ctx.arc(i * 200 + 100, 100, 40, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // 😘 KUŞ
-  ctx.font = "30px Arial";
+  // kuş
+  ctx.font = "35px Arial";
   ctx.fillText("😘", bird.x - 15, bird.y + 10);
 
-  // BORULAR
-  ctx.fillStyle = "green";
-  pipes.forEach(pipe => {
-    ctx.shadowColor = "black";
-    ctx.shadowBlur = 10;
-
-    ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
-    ctx.fillRect(pipe.x, pipe.bottom, pipe.width, canvas.height);
-
-    ctx.shadowBlur = 0;
+  // borular
+  ctx.fillStyle = "#2ecc71";
+  pipes.forEach(p => {
+    ctx.fillRect(p.x, 0, p.width, p.top);
+    ctx.fillRect(p.x, p.bottom, p.width, window.innerHeight);
   });
 
-  // 💖 KALPLER
-  ctx.font = "20px Arial";
-  hearts.forEach(h => {
-    ctx.fillText("❤️", h.x, h.y);
-  });
-}
+  // 🟡 BAŞLANGIÇ YAZISI
+  if (!started) {
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("Dokunarak Başla 💖", 50, window.innerHeight / 2);
+  }
 
-// GAME OVER
-function endGame() {
-  gameOver = true;
-  document.getElementById("gameOver").style.display = "block";
+  // 💀 GAME OVER YAZISI
+  if (gameOver) {
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("Seni seviyorum ❤️", 50, window.innerHeight / 2);
+    ctx.fillText("Tekrar dokun", 50, window.innerHeight / 2 + 40);
+  }
 }
 
 // LOOP
