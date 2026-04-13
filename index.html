@@ -1,19 +1,147 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Flappy Göksü 💖</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Göksu Oyunu</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: skyblue;
+    font-family: Arial;
+  }
+  canvas {
+    display: block;
+  }
+  #gameOver {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    color: red;
+    display: none;
+  }
+</style>
 </head>
 <body>
 
+<div id="gameOver">Yandın, tekrar dene 😢</div>
 <canvas id="gameCanvas"></canvas>
 
-<div id="gameOver">
-  <h1>göksü 💖</h1>
-  <button onclick="restartGame()">Tekrar Oyna</button>
-</div>
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-<script src="game.js"></script>
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let bird = {
+  x: 100,
+  y: 200,
+  velocity: 0,
+  gravity: 0.5,
+  lift: -10
+};
+
+let pipes = [];
+let hearts = [];
+let gameOver = false;
+
+function createPipe() {
+  let gap = 150;
+  let top = Math.random() * (canvas.height - gap);
+
+  pipes.push({
+    x: canvas.width,
+    width: 60,
+    top: top,
+    bottom: top + gap
+  });
+}
+
+function createHeart() {
+  hearts.push({
+    x: Math.random() * canvas.width,
+    y: canvas.height,
+    size: Math.random() * 10 + 10
+  });
+}
+
+document.addEventListener("click", () => {
+  if (gameOver) {
+    location.reload();
+  } else {
+    bird.velocity = bird.lift;
+  }
+});
+
+function update() {
+  if (gameOver) return;
+
+  bird.velocity += bird.gravity;
+  bird.y += bird.velocity;
+
+  if (bird.y > canvas.height || bird.y < 0) {
+    endGame();
+  }
+
+  pipes.forEach(pipe => {
+    pipe.x -= 3;
+
+    if (
+      bird.x > pipe.x &&
+      bird.x < pipe.x + pipe.width &&
+      (bird.y < pipe.top || bird.y > pipe.bottom)
+    ) {
+      endGame();
+    }
+  });
+
+  hearts.forEach(h => {
+    h.y -= 2;
+  });
+
+  if (Math.random() < 0.02) createPipe();
+  if (Math.random() < 0.05) createHeart();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Kuş
+  ctx.fillStyle = "yellow";
+  ctx.beginPath();
+  ctx.arc(bird.x, bird.y, 15, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Kutular
+  ctx.fillStyle = "green";
+  pipes.forEach(pipe => {
+    ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
+    ctx.fillRect(pipe.x, pipe.bottom, pipe.width, canvas.height);
+  });
+
+  // Kalpler
+  ctx.fillStyle = "red";
+  hearts.forEach(h => {
+    ctx.fillText("❤️", h.x, h.y);
+  });
+}
+
+function endGame() {
+  gameOver = true;
+  document.getElementById("gameOver").style.display = "block";
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+
 </body>
 </html>
