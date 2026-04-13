@@ -18,7 +18,7 @@ let lines = [
 "Bağırdığım, kırdığım her şey için gerçekten özür dilerim.",
 "Sen benim sevgilimsin.",
 "Ve biz ayrı değiliz.",
-"10 Haziran 2025 15:00...",
+"10 Aralık 2025 15:00...",
 "Hayatımın en güzel başlangıcıydı.",
 "Seni kaybetmek istemiyorum.",
 "Sadece daha iyi olmak istiyorum.",
@@ -47,7 +47,7 @@ show();
 
 // SAYAÇ
 setInterval(()=>{
-let start = new Date("2025-06-10T15:00:00");
+let start = new Date("2025-12-10T15:00:00");
 let now = new Date() - start;
 
 let d = Math.floor(now / 86400000);
