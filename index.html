@@ -3,7 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <title>Göksu ❤️</title>
-<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
+color:white;
+font-family:'Pacifico', cursive;
+text-align:center;
+overflow:hidden;
+}
+
+.container{
+padding:40px;
+max-width:600px;
+margin:auto;
+margin-top:50px;
+background:rgba(255,255,255,0.05);
+border-radius:20px;
+backdrop-filter:blur(10px);
+box-shadow:0 0 30px rgba(255,105,180,0.2);
+}
+
+h1{
+margin-bottom:30px;
+font-size:32px;
+color:#ff7aa2;
+}
+
+.line{
+margin:15px 0;
+font-size:20px;
+opacity:0;
+animation:fade 1s forwards;
+}
+
+#counter{
+margin-top:30px;
+opacity:0.8;
+}
+
+button{
+margin-top:25px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,#ff4d6d,#ff7aa2);
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+@keyframes fade{
+to{opacity:1;}
+}
+
+#bg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+}
+</style>
 </head>
 
 <body>
@@ -11,15 +81,146 @@
 <canvas id="bg"></canvas>
 
 <div class="container">
-
 <h1 id="greet"></h1>
-
 <div id="text"></div>
-
 <div id="counter"></div>
-
+<button onclick="showLove()">Bana tıkla 💖</button>
 </div>
 
-<script src="script.js"></script>
+<script>
+// AKILLI SELAM
+let hour = new Date().getHours();
+let greet = hour < 18 
+? "Günaydın Göksu ☀️" 
+: "İyi geceler Göksu 🌙";
+
+document.getElementById("greet").innerText = greet;
+
+
+// MESAJLAR
+let lines = [
+"Göksu...",
+"Seni çok seviyorum.",
+"Bazen seni kızdırıyorum...",
+"bazen de farkında olmadan üzüyorum.",
+"Ama inan hiç istemiyorum.",
+"Her şey için özür dilerim.",
+"Sen benim sevgilimsin.",
+"Ve biz ayrı değiliz.",
+"10 Aralık 2025...",
+"Hayatımın en güzel günü.",
+"Seni kaybetmek istemiyorum.",
+"Sana söz veriyorum deneyeceğim.",
+"💖"
+];
+
+
+// YAZMA EFEKTİ
+let i = 0;
+
+function typeLine(line, element, callback){
+let j = 0;
+
+function type(){
+if(j < line.length){
+element.innerHTML += line[j];
+j++;
+setTimeout(type, 40);
+}else{
+callback();
+}
+}
+
+type();
+}
+
+function show(){
+if(i < lines.length){
+let div = document.createElement("div");
+div.className = "line";
+document.getElementById("text").appendChild(div);
+
+typeLine(lines[i], div, () => {
+i++;
+setTimeout(show, 800);
+});
+}
+}
+
+show();
+
+
+// BUTON
+function showLove(){
+alert("Seni her şeyden çok seviyorum Göksu 💖");
+}
+
+
+// SAYAÇ (10 ARALIK 2025)
+setInterval(()=>{
+let start = new Date("2025-12-10");
+let now = new Date() - start;
+
+let d = Math.floor(now / 86400000);
+let h = Math.floor((now % 86400000)/3600000);
+let m = Math.floor((now % 3600000)/60000);
+
+document.getElementById("counter").innerText =
+d + " gün " + h + " saat " + m + " dakika birlikte ❤️";
+
+},1000);
+
+
+// KALP ANİMASYON
+const c = document.getElementById("bg");
+const ctx = c.getContext("2d");
+
+c.width = window.innerWidth;
+c.height = window.innerHeight;
+
+let hearts = [];
+
+function createHeart(){
+hearts.push({
+x: Math.random()*c.width,
+y: c.height,
+vy: Math.random()*-2-1,
+size: Math.random()*10+5
+});
+}
+
+function drawHeart(x, y, size){
+ctx.beginPath();
+ctx.moveTo(x, y);
+ctx.bezierCurveTo(x, y-3*size, x-2*size, y-3*size, x-2*size, y);
+ctx.bezierCurveTo(x-2*size, y+2*size, x, y+3*size, x, y+4*size);
+ctx.bezierCurveTo(x, y+3*size, x+2*size, y+2*size, x+2*size, y);
+ctx.bezierCurveTo(x+2*size, y-3*size, x, y-3*size, x, y);
+ctx.fillStyle = "pink";
+ctx.fill();
+}
+
+function draw(){
+ctx.clearRect(0,0,c.width,c.height);
+
+hearts.forEach(h=>{
+h.y += h.vy;
+drawHeart(h.x, h.y, h.size);
+});
+
+requestAnimationFrame(draw);
+}
+
+setInterval(createHeart, 300);
+draw();
+
+
+// RESPONSIVE
+window.addEventListener("resize", ()=>{
+c.width = window.innerWidth;
+c.height = window.innerHeight;
+});
+</script>
+
 </body>
 </html>
