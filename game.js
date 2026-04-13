@@ -8,36 +8,34 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
-// KUŞ
+// 🐦 DAHA GÜZEL KUŞ
 let bird = {
   x: 80,
   y: 200,
   velocity: 0,
-  gravity: 0.6,
-  lift: -12
+  gravity: 0.5,   // daha yavaş düşüş (kolaylık)
+  lift: -10       // daha kontrollü zıplama
 };
 
-// OYUN DEĞİŞKENLERİ
 let pipes = [];
 let hearts = [];
 let score = 0;
 let gameOver = false;
 
-// KUTU OLUŞTUR
+// 🟩 DAHA GENİŞ BOŞLUK + DAHA SEYREK KUTU
 function createPipe() {
-  let gap = 180;
+  let gap = 220; // BOŞLUK ARTTI (kolaylaştı)
   let top = Math.random() * (canvas.height - gap);
 
   pipes.push({
     x: canvas.width,
-    width: 70,
+    width: 60,
     top: top,
     bottom: top + gap,
     passed: false
   });
 }
 
-// KALP OLUŞTUR
 function createHeart() {
   hearts.push({
     x: Math.random() * canvas.width,
@@ -46,7 +44,7 @@ function createHeart() {
   });
 }
 
-// TIKLAMA (MOBILE + PC)
+// TIKLAMA
 function flap() {
   if (gameOver) {
     location.reload();
@@ -58,22 +56,20 @@ function flap() {
 document.addEventListener("click", flap);
 document.addEventListener("touchstart", flap);
 
-// GÜNCELLE
 function update() {
   if (gameOver) return;
 
   bird.velocity += bird.gravity;
   bird.y += bird.velocity;
 
-  // sınır kontrol
   if (bird.y > canvas.height || bird.y < 0) {
     endGame();
   }
 
   pipes.forEach(pipe => {
-    pipe.x -= 4;
+    pipe.x -= 3; // yavaşlattık (kolay)
 
-    // skor artışı
+    // skor
     if (!pipe.passed && pipe.x + pipe.width < bird.x) {
       score++;
       pipe.passed = true;
@@ -82,8 +78,8 @@ function update() {
 
     // çarpışma
     if (
-      bird.x > pipe.x &&
-      bird.x < pipe.x + pipe.width &&
+      bird.x + 10 > pipe.x &&
+      bird.x - 10 < pipe.x + pipe.width &&
       (bird.y < pipe.top || bird.y > pipe.bottom)
     ) {
       endGame();
@@ -91,21 +87,34 @@ function update() {
   });
 
   hearts.forEach(h => {
-    h.y -= 1.5;
+    h.y -= 1;
   });
 
-  if (Math.random() < 0.02) createPipe();
+  // ⏱️ DAHA SEYREK KUTU
+  if (Math.random() < 0.015) createPipe();
+
   if (Math.random() < 0.05) createHeart();
 }
 
-// ÇİZ
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // kuş
+  // 🐦 DAHA GÜZEL KUŞ (GÖZ + KANAT)
   ctx.fillStyle = "yellow";
   ctx.beginPath();
   ctx.arc(bird.x, bird.y, 15, 0, Math.PI * 2);
+  ctx.fill();
+
+  // göz
+  ctx.fillStyle = "black";
+  ctx.beginPath();
+  ctx.arc(bird.x + 5, bird.y - 5, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  // kanat
+  ctx.fillStyle = "orange";
+  ctx.beginPath();
+  ctx.arc(bird.x - 5, bird.y, 8, 0, Math.PI);
   ctx.fill();
 
   // kutular
@@ -122,13 +131,11 @@ function draw() {
   });
 }
 
-// GAME OVER
 function endGame() {
   gameOver = true;
   document.getElementById("gameOver").style.display = "block";
 }
 
-// LOOP
 function loop() {
   update();
   draw();
