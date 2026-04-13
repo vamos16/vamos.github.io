@@ -17,7 +17,7 @@ let lines = [
 "Her şey için özür dilerim.",
 "Sen benim sevgilimsin.",
 "Ve biz ayrı değiliz.",
-"10 Aralık 2025...",
+"10 Aralık 2025 15:00...",
 "Hayatımın en güzel günü.",
 "Seni kaybetmek istemiyorum.",
 "Sana söz veriyorum deneyeceğim.",
@@ -66,9 +66,9 @@ alert("Seni her şeyden çok seviyorum Göksu 💖");
 }
 
 
-// SAYAÇ (10 ARALIK 2025)
+// ⏳ SAYAÇ (10 ARALIK 2025 SAAT 15:00)
 setInterval(()=>{
-let start = new Date("2025-12-10");
+let start = new Date("2025-12-10T15:00:00");
 let now = new Date() - start;
 
 let d = Math.floor(now / 86400000);
@@ -81,7 +81,7 @@ d + " gün " + h + " saat " + m + " dakika birlikte ❤️";
 },1000);
 
 
-// KALP ANİMASYON
+// ❤️ KALP ANİMASYON (KIRMIZI)
 const c = document.getElementById("bg");
 const ctx = c.getContext("2d");
 
@@ -106,7 +106,7 @@ ctx.bezierCurveTo(x, y-3*size, x-2*size, y-3*size, x-2*size, y);
 ctx.bezierCurveTo(x-2*size, y+2*size, x, y+3*size, x, y+4*size);
 ctx.bezierCurveTo(x, y+3*size, x+2*size, y+2*size, x+2*size, y);
 ctx.bezierCurveTo(x+2*size, y-3*size, x, y-3*size, x, y);
-ctx.fillStyle = "pink";
+ctx.fillStyle = "#ff2e63";
 ctx.fill();
 }
 
